@@ -1,0 +1,68 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:oxy="clr-namespace:OxyPlot.Avalonia;assembly=OxyPlot.Avalonia"
+        mc:Ignorable="d"
+        x:Class="Backtester.AvaloniaApp.MainWindow"
+        Width="1300" Height="800"
+        Title="Trading Backtester (Avalonia)"
+        KeyDown="OnKeyDown"
+        Focusable="True">
+
+  <Grid RowDefinitions="Auto,*,Auto" ColumnDefinitions="2*,3*">
+    <Border Grid.Row="0" Grid.ColumnSpan="2" Padding="12">
+      <StackPanel Orientation="Horizontal" Spacing="10">
+        <Button Content="Load events.jsonl" Command="{Binding LoadEventsCommand}" />
+        <Button Content="{Binding PlayLabel}" Command="{Binding TogglePlayCommand}" />
+        <TextBlock Text="Speed" VerticalAlignment="Center" Margin="10,0,0,0"/>
+        <Slider Minimum="1" Maximum="30" Width="180" Value="{Binding Speed, Mode=TwoWay}" />
+        <TextBlock Text="{Binding SpeedText}" VerticalAlignment="Center" />
+        <Separator Width="14" Opacity="0"/>
+        <Button Content="Step" Command="{Binding StepCommand}" />
+        <Button Content="Fast-forward 50" Command="{Binding FastForwardCommand}" />
+        <Button Content="To end" Command="{Binding ToEndCommand}" />
+        <TextBlock Text="{Binding CursorText}" VerticalAlignment="Center" Margin="10,0,0,0"/>
+      </StackPanel>
+    </Border>
+
+    <Border Grid.Row="1" Grid.Column="0" Padding="12">
+      <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,*,Auto">
+        <TextBlock Grid.Row="0" Text="Replay state" FontSize="16" />
+        <TextBlock Grid.Row="1" Text="{Binding CurrentTimeText}" />
+        <TextBlock Grid.Row="2" Text="{Binding EquityText}" />
+        <TextBlock Grid.Row="3" Text="{Binding PositionText}" />
+        <TextBlock Grid.Row="4" Text="{Binding UnrealizedText}" />
+        <TextBlock Grid.Row="5" Text="{Binding PlayingText}" Opacity="0.7"/>
+
+        <StackPanel Grid.Row="6" Spacing="10">
+          <StackPanel>
+            <TextBlock Text="Event log (tail)" FontSize="16" />
+            <ListBox ItemsSource="{Binding EventPreview}" Height="240"/>
+          </StackPanel>
+
+          <StackPanel>
+            <TextBlock Text="Trade blotter (tail)" FontSize="16" />
+            <ListBox ItemsSource="{Binding TradePreview}" Height="240"/>
+          </StackPanel>
+        </StackPanel>
+
+        <TextBlock Grid.Row="7" Text="Keyboard: Space=Play/Pause, ←/→ step, Shift+→ fast-forward" Opacity="0.7"/>
+      </Grid>
+    </Border>
+
+    <Border Grid.Row="1" Grid.Column="1" Padding="12">
+      <Grid RowDefinitions="3*,2*" RowSpacing="10">
+        <oxy:PlotView Grid.Row="0" Model="{Binding CandleModel}" />
+        <oxy:PlotView Grid.Row="1" Model="{Binding EquityModel}" />
+      </Grid>
+    </Border>
+
+    <Border Grid.Row="2" Grid.ColumnSpan="2" Padding="12">
+      <StackPanel Spacing="6">
+        <TextBlock Text="Cursor" />
+        <Slider Minimum="0" Maximum="{Binding MaxIndex}" Value="{Binding CursorIndex, Mode=TwoWay}" />
+      </StackPanel>
+    </Border>
+  </Grid>
+</Window>
