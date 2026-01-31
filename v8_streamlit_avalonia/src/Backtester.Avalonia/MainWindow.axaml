@@ -1,0 +1,49 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        x:Class="Backtester.AvaloniaApp.MainWindow"
+        Width="1100" Height="700"
+        Title="Trading Backtester (Avalonia Skeleton)">
+
+  <Grid RowDefinitions="Auto,*,Auto" ColumnDefinitions="2*,3*">
+    <!-- Top controls -->
+    <Border Grid.Row="0" Grid.ColumnSpan="2" Padding="12">
+      <StackPanel Orientation="Horizontal" Spacing="10">
+        <Button Content="Load events.jsonl" Command="{Binding LoadEventsCommand}" />
+        <Button Content="Step" Command="{Binding StepCommand}" />
+        <Button Content="Fast-forward 50" Command="{Binding FastForwardCommand}" />
+        <Button Content="To end" Command="{Binding ToEndCommand}" />
+        <TextBlock Text="{Binding CursorText}" VerticalAlignment="Center" Margin="10,0,0,0"/>
+      </StackPanel>
+    </Border>
+
+    <!-- Left: event list -->
+    <Border Grid.Row="1" Grid.Column="0" Padding="12">
+      <StackPanel Spacing="8">
+        <TextBlock Text="Event log (preview)" FontSize="16" />
+        <ListBox ItemsSource="{Binding EventPreview}" />
+      </StackPanel>
+    </Border>
+
+    <!-- Right: current state -->
+    <Border Grid.Row="1" Grid.Column="1" Padding="12">
+      <StackPanel Spacing="10">
+        <TextBlock Text="Replay state" FontSize="16" />
+        <TextBlock Text="{Binding CurrentTimeText}" />
+        <TextBlock Text="{Binding EquityText}" />
+        <TextBlock Text="{Binding PositionText}" />
+        <TextBlock Text="(Charts come next: candle + equity + markers)" Opacity="0.7"/>
+      </StackPanel>
+    </Border>
+
+    <!-- Bottom: slider -->
+    <Border Grid.Row="2" Grid.ColumnSpan="2" Padding="12">
+      <StackPanel Spacing="6">
+        <TextBlock Text="Cursor" />
+        <Slider Minimum="0" Maximum="{Binding MaxIndex}" Value="{Binding CursorIndex, Mode=TwoWay}" />
+      </StackPanel>
+    </Border>
+  </Grid>
+</Window>
